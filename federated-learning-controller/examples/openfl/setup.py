@@ -69,7 +69,7 @@ setup(
     packages=find_packages(
         include=(
             "openfl",
-            # "openfl.*",
+            "openfl.*",
             "openfl-docker",
             "openfl-workspace",
             # "openfl-tutorials",
