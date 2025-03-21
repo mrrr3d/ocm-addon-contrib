@@ -59,8 +59,8 @@ RUN pip install --no-cache-dir . && \
     INSTALL_SOURCES=yes /opt/venv/lib/python3.10/site-packages/openfl-docker/licenses.sh
 
 # Create an unprivileged user.
-RUN groupadd -g 1001 default && \
-    useradd -m -u 1001 -g default user
-USER user
+# RUN groupadd -g 1001 default && \
+#     useradd -m -u 1001 -g default user
+# USER user
 
 CMD ["/bin/bash"]
