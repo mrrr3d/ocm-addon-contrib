@@ -71,7 +71,7 @@ setup(
             "openfl",
             # "openfl.*",
             "openfl-docker",
-            # "openfl-workspace",
+            "openfl-workspace",
             # "openfl-tutorials",
         )
     ),

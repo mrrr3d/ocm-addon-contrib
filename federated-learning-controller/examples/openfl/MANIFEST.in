@@ -1,1 +1,2 @@
 recursive-include openfl-docker *
+recursive-include openfl-workspace *
