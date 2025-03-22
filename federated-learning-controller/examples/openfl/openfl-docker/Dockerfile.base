@@ -63,4 +63,6 @@ RUN pip install --no-cache-dir . && \
 #     useradd -m -u 1001 -g default user
 # USER user
 
-CMD ["/bin/bash"]
+# CMD ["/bin/bash"]
+RUN chmod +x /repo/app/entrypoint.sh
+ENTRYPOINT [ "/repo/app/entrypoint.sh" ]
