@@ -15,6 +15,7 @@ from flwr.server.strategy import FedAvg
 
 from app_torch.task import Net, get_weights
 from app_torch.utils import get_latest_model_file, load_model, save_model
+from torch.utils.tensorboard import SummaryWriter
 
 
 # ------------------------------
@@ -64,6 +65,8 @@ def start_server(args):
     # Convert model weights to Flower format
     initial_parameters = ndarrays_to_parameters(get_weights(model))
 
+    writer = SummaryWriter(log_dir="./logs")
+
     # Custom aggregation strategy to save the latest aggregated model
     class SaveLatestModelStrategy(FedAvg):
         def aggregate_fit(self, rnd, results, failures):
@@ -87,6 +90,22 @@ def start_server(args):
                 torch.save(net.state_dict(), model_file)
 
             return aggregated_parameters, aggregated_metrics
+
+        def aggregate_evaluate(self, rnd, results, failures):
+            # 获取聚合的 loss 和自定义指标
+            loss, metrics = super().aggregate_evaluate(rnd, results, failures)
+
+            if metrics is not None:
+                acc = metrics.get("accuracy", None)
+                if acc is not None:
+                    print(f"Round {rnd} aggregated accuracy: {acc}")
+                    writer.add_scalar("Accuracy", acc, rnd)
+            
+            if loss is not None:
+                print(f"Round {rnd} loss: {loss}")
+                writer.add_scalar("Loss", loss, rnd)
+
+            return loss, metrics
 
     # Start the FL server
     fl.server.start_server(

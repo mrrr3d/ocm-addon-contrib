@@ -23,6 +23,7 @@ echo "Installed the package successfully!"
 
 # Map input commands to the appropriate Python script
 if [ "$1" = "server" ]; then
+  ./.venv/bin/tensorboard --logdir=./logs/ --host=0.0.0.0 --port=6006 &
   shift
   exec python app_torch/server_app.py "$@"
 elif [ "$1" = "client" ]; then
